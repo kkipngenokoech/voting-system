@@ -226,35 +226,41 @@ input [type="submit" i]{
 }
 
     </style>
+    <script type="text/javascript" src="./app.js" defer ></script>
 </head>
 <body>
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="app.php" method="post" >
+    <form action="#" method="post" id="register">
         <h3>SignUp Here</h3>
 
         <!--  name attribute to pick data from the field targeted -->
         <label for="firstname">First name</label>
-        <input type="text" placeholder="Atoti" id="fname" name="fname" value="<?php if(isset($firstname)){echo $firstname;} ?>" >
+        <input required type="text" placeholder="Atoti" id="fname" name="fname" pattern="[A-Za-z ]{15}" maxlength="15" value="<?php if(isset($firstname)){echo $firstname;} ?>" >
         <?php if(isset($error['firstname'])){echo $error['firstname'];} ?>
+        <div id="fname-error" style="color:red" ></div>
 
         <label for="surname">Surname</label>
-        <input type="text" placeholder="Mkenya" id="surname" name="surname" value="<?php if(isset($surname)){echo $surname;} ?>" >
+        <input  required type="text" placeholder="Mkenya" id="surname" name="surname" maxlength="15" value="<?php if(isset($surname)){echo $surname;} ?>" >
         <?php if(isset($error['surname'])){echo $error['surname'];} ?>
+        <div id="surname-error" style="color:red" ></div>
 
         <label for="phonenumber">Phone Number</label>
-        <input type="number" placeholder="07********" id="phonenumber" name="phonenumber" value="<?php if(isset($phonenumber)){echo $phonenumber;} ?>" >
+        <input required type="number" placeholder="07********" id="phonenumber" name="phonenumber" max="0799999999"  min="0100000000" value="<?php if(isset($phonenumber)){echo $phonenumber;} ?>" >
         <?php if(isset($error['phonenumber'])){echo $error['phonenumber'];} ?>
+        <div id="phonenumber-error" style="color:red" ></div>
 
         <label for="email">Email Address</label>
-        <input type="text" placeholder="example@gmail.com" id="email" name="email" value="<?php if(isset($email)){echo $email;} ?>" >
+        <input required type="email" placeholder="example@gmail.com" id="email" name="email" autocomplete="off" value="<?php if(isset($email)){echo $email;} ?>" >
         <?php if(isset($error['email'])){echo $error['email'];} ?>
+        <div id="email-error" style="color:red" ></div>
 
         <label for="password">Password</label>
-        <input type="password" placeholder="P*******d" id="password" name="password" value="<?php if(isset($password)){echo $password;} ?>" >
+        <input required type="password" placeholder="P*******d" id="password" name="password" value="<?php if(isset($password)){echo $password;} ?>" >
         <?php if(isset($error['password'])){echo $error['password'];} ?>
+        <div id="password-error" style="color:red" ></div>
         <br/>
 
         <?php if(isset($error['general'])){echo $error['general'];} ?>
