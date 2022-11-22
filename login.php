@@ -54,8 +54,13 @@ if (isset($_POST['login'])) {
   } else {
     $login_error = "<p style='color:red' >Logging in Failed. Please try again</p>";
   }
+
+  // Free Memory Result Set 
+  mysqli_free_result($result);
 }
 
+//close the database connection
+mysqli_close($dbconnect);
 ?>
 
 <!DOCTYPE html>
