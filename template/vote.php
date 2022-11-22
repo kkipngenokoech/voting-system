@@ -16,8 +16,19 @@ if (isset($_POST['vote'])) {
 
     $user_id = $_SESSION['user_id'];
 
-    $president = sanitize($_POST['president']);
-    $vicepresident = sanitize($_POST['vicepresident']);
+    if (isset($_POST['president'])) {
+        $president = sanitize($_POST['president']);
+    }
+
+
+    if (isset($_POST['vicepresident'])) {
+        $vicepresident = sanitize($_POST['vicepresident']);
+    }
+
+
+
+
+
 
     $election_id = 1;
     //check whether student has alreday registered for this election
@@ -31,7 +42,7 @@ if (isset($_POST['vote'])) {
 
 
     if ($row > 0) {
-        $error = "<p style='color:red;'>You have already voted in this election.</p>";
+        $error = "<div class='alert alert-danger alert-mg-b' role='alert'>You have already voted in this election.'</div>";
     } else {
         //   saving data to database
         // $sql = "INSERT INTO vote (user__id , candidate__id , election__id ) VALUES ($user_id,$president,$election_id)";
@@ -48,7 +59,9 @@ if (isset($_POST['vote'])) {
         if (mysqli_query($dbconnect, $sql)) {
             $success = "<p style='color:green;'>You have successfully Voted .</p>";
         } else {
-            $error = "<p style='color:red;'> Error: " . $dbconnect->error . "</p>";
+            // $error = '<div class="alert alert-danger alert-mg-b" role="alert"> <strong>Oh snap!</strong> Change a few things up and try submitting again. </div> . $dbconnect->error . "</p>';
+            // $error = "<p style='color:red;'> Error: " . $dbconnect->error . "</p>";
+            $error = "<div class='alert alert-danger alert-mg-b' role='alert'>  .$dbconnect->error . '</div>";
         }
     }
 }
@@ -106,6 +119,8 @@ if (isset($_POST['vote'])) {
 
                 foreach ($presidents as $pres) {
                     $user_id = $pres['user__id'];
+
+                    $candidate_id = $pres['user__id'];
 
                     $user_sql = "SELECT * FROM user WHERE id= $user_id";
                     $user_results = mysqli_query($dbconnect, $user_sql);
@@ -192,6 +207,7 @@ if (isset($_POST['vote'])) {
 
             foreach ($presidents as $pres) {
                 $user_id = $pres['user__id'];
+                $candidate_id = $pres['user__id'];
 
                 $user_sql = "SELECT * FROM user WHERE id= $user_id";
                 $user_results = mysqli_query($dbconnect, $user_sql);

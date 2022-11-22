@@ -237,7 +237,7 @@ require("../dbconnect.php")
                                                                 Settings</a>
                                                         </li>
                                                         <li>
-                                                            <a href="../login.php"><span class="icon nalika-unlocked author-log-ic"></span>
+                                                            <a href="logout.php"><span class="icon nalika-unlocked author-log-ic"></span>
                                                                 Log Out</a>
                                                         </li>
                                                     </ul>
