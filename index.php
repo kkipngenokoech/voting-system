@@ -1,3 +1,16 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
+
+require "dbconnect.php";
+
+//picking data from stored session
+$firstname = $_SESSION['firstname'];
+$othernames = $_SESSION['othernames'];
+?>
+
 <!DOCTYPE html>
 <html class="no-js" lang="en">
   <head>
@@ -89,7 +102,7 @@
         <div class="nalika-profile">
           <div class="profile-dtl">
             <a href="#"><img src="img/notification/4.jpg" alt="" /></a>
-            <h2>Lakian <span class="min-dtn">Das</span></h2>
+            <h2> <?php echo $firstname ?> <span class="min-dtn"> <?php echo $othernames ?> </span></h2>
           </div>
           <div class="profile-social-dtl">
             <ul class="dtl-social">

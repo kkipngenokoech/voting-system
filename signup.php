@@ -1,92 +1,112 @@
 <?php
-    // assigning variables values once the save button has been clicked
-    if(isset($_POST['save'])){
-        // initialising variables to a default value
-        $firstname = $surname = $email = $password = ""; 
-        $phonenumber = 0; 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-        $firstname = $_POST['fname'];
-        $surname = $_POST['surname'];
-        $phonenumber = $_POST['phonenumber'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+require "dbconnect.php";
 
-        // inputs array
-        $error = array("firstname"=>"","surname"=>"","phonenumber"=>"","email"=>"","password"=>"","general"=>"");
+// assigning variables values once the submit button has been clicked
+if (isset($_POST['submit'])) {
+    // initialising variables to a default value
 
-        $success = "";
+    $firstname = $surname = $email = $password = "";
+    $phonenumber = 0;
 
+    $firstname = $_POST['fname'];
+    $surname = $_POST['surname'];
+    $phonenumber = $_POST['phonenumber'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-        // Form Validation
-        if(empty($firstname)){
-            $error ["firstname"] = "<p style='color:red;'>Please enter Your Name </p>";
-        }else{
-            //treats all tags received as normal texts...prevents xss attacks
-            $firstname = htmlspecialchars($firstname);
+    // echo  $firstname, $surname, $email, $phonenumber, $password;
 
-            //Checking a parameter by use of regular expressions
-            if(!preg_match("/^([a-zA-Z' ]+)$/","$firstname")){
-            $error ["firstname"] ="<p style='color:red;'>Please use lettters a to z only </p>";
-            }
-        }
-        if(empty($surname)){
-            $error ["surname"] ="<p style='color:red;'>Please enter Your surname </p>";
-        }else{
-            $surname = htmlspecialchars($surname);
+    // inputs array
+    $error = array("firstname" => "", "surname" => "", "phonenumber" => "", "email" => "", "password" => "", "general" => "");
 
-            // Checking surname
-            if(!preg_match("/^([a-zA-Z' ]+)$/","$surname")){
-                $error ["surname"] = "<p style='color:red;'>Please use lettters a to z only </p>";
-            }
-        }
-        if(empty($phonenumber)){
-            $error ["phonenumber"] = "<p style='color:red;'>Please enter Your phone number </p>";
-        }else{
-            $phonenumber = htmlspecialchars($phonenumber);
+    $success = "";
 
-            // Validating Phone Number
-            // if(preg_match('/^[0-9]{10}+$/', $phone)) {
-            //     echo "Valid Phone Number";
-            //     } else {
-            //     echo "Invalid Phone Number";
-            // }
+    // Form Validation
+    if (empty($firstname)) {
+        $error["firstname"] = "<p style='color:red;'>Please enter Your Name </p>";
+    } else {
+        //treats all tags received as normal texts...prevents xss attacks
+        $firstname = htmlspecialchars($firstname);
 
-            // checking whether phone number is a number
-            if(!is_numeric($phonenumber)){
-                $error ["phonenumber"] ="<p style='color:red;'>Phone Number must be numbers between 0 to 9 </p>";
-            }
-            // checking whether phone number is of valid length
-            if(strlen($phonenumber) != 10){
-                $error ["phonenumber"] = "<p style='color:red;'>Phone Number must have ten digits</p>";
-            }
-        }
-        if(empty($email)){
-            $error ["email"] = "<p style='color:red;'>Please enter Your email </p>";
-        }else{
-            $email = htmlspecialchars($email);
-
-            // Checking email
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error ["email"] = "<p style='color:red;'>Invalid email address ,($email) </p>";   
-            }
-        }
-        if(empty($password)){
-            $error ["password"] = "<p style='color:red;'>Please enter Your password </p>";
-        }else{
-            $password = htmlspecialchars($password);
-
-            // Checking Password
-            if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $password)) {
-                $error ["password "] = 'the password does not meet the requirements!';
-            }
-        }
-        if(count($error)){
-            $error ["general"] = "<p style='color:red;' > Please handle the errors before proceeding  </p>";
-        }else{
-           $success =  "<p style='color:green;' > Successful Signup!!! <a>Log In</a> </p>";
-
+        //Checking a parameter by use of regular expressions
+        if (!preg_match("/^([a-zA-Z' ]+)$/", "$firstname")) {
+            $error["firstname"] = "<p style='color:red;'>Please use lettters a to z only </p>";
         }
     }
+
+    if (empty($surname)) {
+        $error["surname"] = "<p style='color:red;'>Please enter Your surname </p>";
+    } else {
+        $surname = htmlspecialchars($surname);
+
+        // Checking surname
+        if (!preg_match("/^([a-zA-Z' ]+)$/", "$surname")) {
+            $error["surname"] = "<p style='color:red;'>Please use lettters a to z only </p>";
+        }
+    }
+
+    if (empty($phonenumber)) {
+        $error["phonenumber"] = "<p style='color:red;'>Please enter Your phone number </p>";
+    } else {
+        $phonenumber = htmlspecialchars($phonenumber);
+
+        // Validating Phone Number
+        // if(preg_match('/^[0-9]{10}+$/', $phone)) {
+        //     echo "Valid Phone Number";
+        //     } else {
+        //     echo "Invalid Phone Number";
+        // }
+
+        // checking whether phone number is a number
+        if (!is_numeric($phonenumber)) {
+            $error["phonenumber"] = "<p style='color:red;'>Phone Number must be numbers between 0 to 9 </p>";
+        }
+        // checking whether phone number is of valid length
+        if (strlen($phonenumber) != 10) {
+            $error["phonenumber"] = "<p style='color:red;'>Phone Number must have ten digits</p>";
+        }
+    }
+
+    if (empty($email)) {
+        $error["email"] = "<p style='color:red;'>Please enter Your email </p>";
+    } else {
+        $email = htmlspecialchars($email);
+
+        // Checking email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error["email"] = "<p style='color:red;'>Invalid email address ,($email) </p>";
+        }
+    }
+
+    if (empty($password)) {
+        $error["password"] = "<p style='color:red;'>Please enter Your password </p>";
+    } else {
+        $password = htmlspecialchars($password);
+        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $password)) {
+            $error["password "] = 'the password does not meet the requirements!';
+        }
+        $password = crypt($password, "vote_22");
+
+    }
+
+    // echo empty($error) ;
+    if (empty($error)) {
+        $error["general"] = "<p style='color:red;' > Please handle the errors before proceeding  </p>";
+    } else {
+        $sql = "INSERT INTO user(firstname,othernames,contact,emailaddress,userpassword) VALUES('$firstname','$surname',$phonenumber,'$email','$password')";
+
+        if (mysqli_query($dbconnect, $sql)) {
+            $success = "<p style='color:green;'>Successful Signup!Now you can login" . "</p>";
+        } else {
+            $error['general'] = "<p style='color:red;'> Error: " . $dbconnect->error . "</p>";
+        }
+
+        mysqli_close($dbconnect);
+    }
+}
 ?>
 
 
@@ -95,138 +115,14 @@
 <head>
   <!-- Design by foolishdeveloper.com -->
     <title>Sign Up Form</title>
- 
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <!--Stylesheet-->
-    <style media="screen">
-      *,
-*:before,
-*:after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-body{
-    background-color: #080710;
-}
-.background{
-    width: 430px;
-    height: 520px;
-    position: absolute;
-    transform: translate(-50%,-50%);
-    left: 50%;
-    top: 50%;
-}
-.background .shape{
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
-}
-.shape:first-child{
-    background: linear-gradient(
-        #1845ad,
-        #23a2f6
-    );
-    left: -80px;
-    top: -80px;
-}
-.shape:last-child{
-    background: linear-gradient(
-        to right,
-        #ff512f,
-        #f09819
-    );
-    right: -30px;
-    bottom: -80px;
-}
-form{
-    /* height: 520px; */
-    width: 400px;
-    /* overflow: scroll; */
-    background-color: rgba(255,255,255,0.13);
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 50px 35px;
-}
-form *{
-    font-family: 'Poppins',sans-serif;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    outline: none;
-    border: none;
-}
-form h3{
-    font-size: 32px;
-    font-weight: 500;
-    line-height: 42px;
-    text-align: center;
-}
-
-label{
-    display: block;
-    margin-top: 30px;
-    font-size: 16px;
-    font-weight: 500;
-}
-input{
-    display: block;
-    height: 50px;
-    width: 100%;
-    background-color: rgba(255,255,255,0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
-}
-::placeholder{
-    color: #e5e5e5;
-}
-input [type="submit" i]{
-    margin-top: 50px;
-    width: 100%;
-    background-color: #ffffff;
-    color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.social{
-  margin-top: 30px;
-  display: flex;
-}
-.social div{
-  background: red;
-  width: 150px;
-  border-radius: 3px;
-  padding: 5px 10px 10px 5px;
-  background-color: rgba(255,255,255,0.27);
-  color: #eaf0fb;
-  text-align: center;
-}
-.social div:hover{
-  background-color: rgba(255,255,255,0.47);
-}
-.social .fb{
-  margin-left: 25px;
-}
-.social i{
-  margin-right: 4px;
-}
-
-    </style>
-    <script type="text/javascript" src="./app.js" defer ></script>
+    <link rel="stylesheet" href="styles.css" />
+    <style media="screen"></style>
+    <!-- <script type="text/javascript" src="./app.js" defer ></script> -->
 </head>
 <body>
     <div class="background">
@@ -238,35 +134,35 @@ input [type="submit" i]{
 
         <!--  name attribute to pick data from the field targeted -->
         <label for="firstname">First name</label>
-        <input required type="text" placeholder="Atoti" id="fname" name="fname" pattern="[A-Za-z ]{15}" maxlength="15" value="<?php if(isset($firstname)){echo $firstname;} ?>" >
-        <?php if(isset($error['firstname'])){echo $error['firstname'];} ?>
+        <input  type="text" placeholder="Atoti" id="fname" name="fname"  maxlength="15" value="<?php if (isset($firstname)) {echo $firstname;}?>" >
+        <?php if (isset($error['firstname'])) {echo $error['firstname'];}?>
         <div id="fname-error" style="color:red" ></div>
 
         <label for="surname">Surname</label>
-        <input  required type="text" placeholder="Mkenya" id="surname" name="surname" maxlength="15" value="<?php if(isset($surname)){echo $surname;} ?>" >
-        <?php if(isset($error['surname'])){echo $error['surname'];} ?>
+        <input   type="text" placeholder="Mkenya" id="surname" name="surname" maxlength="15" value="<?php if (isset($surname)) {echo $surname;}?>" >
+        <?php if (isset($error['surname'])) {echo $error['surname'];}?>
         <div id="surname-error" style="color:red" ></div>
 
         <label for="phonenumber">Phone Number</label>
-        <input required type="number" placeholder="07********" id="phonenumber" name="phonenumber" max="0799999999"  min="0100000000" value="<?php if(isset($phonenumber)){echo $phonenumber;} ?>" >
-        <?php if(isset($error['phonenumber'])){echo $error['phonenumber'];} ?>
+        <input  type="number" placeholder="07********" id="phonenumber" name="phonenumber" max="0799999999"  min="0100000000" value="<?php if (isset($phonenumber)) {echo $phonenumber;}?>" >
+        <?php if (isset($error['phonenumber'])) {echo $error['phonenumber'];}?>
         <div id="phonenumber-error" style="color:red" ></div>
 
         <label for="email">Email Address</label>
-        <input required type="email" placeholder="example@gmail.com" id="email" name="email" autocomplete="off" value="<?php if(isset($email)){echo $email;} ?>" >
-        <?php if(isset($error['email'])){echo $error['email'];} ?>
+        <input  type="email" placeholder="example@gmail.com" id="email" name="email" autocomplete="off" value="<?php if (isset($email)) {echo $email;}?>" >
+        <?php if (isset($error['email'])) {echo $error['email'];}?>
         <div id="email-error" style="color:red" ></div>
 
         <label for="password">Password</label>
-        <input required type="password" placeholder="P*******d" id="password" name="password" value="<?php if(isset($password)){echo $password;} ?>" >
-        <?php if(isset($error['password'])){echo $error['password'];} ?>
+        <input  type="password" placeholder="P*******d" id="password" name="password" value="<?php if (isset($password)) {echo $password;}?>" >
+        <?php if (isset($error['password'])) {echo $error['password'];}?>
         <div id="password-error" style="color:red" ></div>
         <br/>
 
-        <?php if(isset($error['general'])){echo $error['general'];} ?>
-        <?php if(isset($success)){echo $success;} ?>
+        <?php if (isset($error['general'])) {echo $error['general'];}?>
+        <?php if (isset($success)) {echo $success;}?>
 
-        <input  type="submit" id="save" name="save"  value="SignUp" />
+        <input  type="submit" id="submit" name="submit"  value="SignUp" />
         <div class="social">
           <div class="go"><i class="fab fa-google"></i>  Google</div>
           <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
