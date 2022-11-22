@@ -89,7 +89,6 @@ if (isset($_POST['submit'])) {
             $error["password "] = 'the password does not meet the requirements!';
         }
         $password = crypt($password, "vote_22");
-
     }
 
     // echo empty($error) ;
@@ -112,8 +111,9 @@ if (isset($_POST['submit'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <!-- Design by foolishdeveloper.com -->
+    <!-- Design by foolishdeveloper.com -->
     <title>Sign Up Form</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -124,6 +124,7 @@ if (isset($_POST['submit'])) {
     <style media="screen"></style>
     <!-- <script type="text/javascript" src="./app.js" defer ></script> -->
 </head>
+
 <body>
     <div class="background">
         <div class="shape"></div>
@@ -134,39 +135,64 @@ if (isset($_POST['submit'])) {
 
         <!--  name attribute to pick data from the field targeted -->
         <label for="firstname">First name</label>
-        <input  type="text" placeholder="Atoti" id="fname" name="fname"  maxlength="15" value="<?php if (isset($firstname)) {echo $firstname;}?>" >
-        <?php if (isset($error['firstname'])) {echo $error['firstname'];}?>
-        <div id="fname-error" style="color:red" ></div>
+        <input type="text" placeholder="Atoti" id="fname" name="fname" maxlength="15" value="<?php if (isset($firstname)) {
+                                                                                                    echo $firstname;
+                                                                                                } ?>">
+        <?php if (isset($error['firstname'])) {
+            echo $error['firstname'];
+        } ?>
+        <div id="fname-error" style="color:red"></div>
 
         <label for="surname">Surname</label>
-        <input   type="text" placeholder="Mkenya" id="surname" name="surname" maxlength="15" value="<?php if (isset($surname)) {echo $surname;}?>" >
-        <?php if (isset($error['surname'])) {echo $error['surname'];}?>
-        <div id="surname-error" style="color:red" ></div>
+        <input type="text" placeholder="Mkenya" id="surname" name="surname" maxlength="15" value="<?php if (isset($surname)) {
+                                                                                                        echo $surname;
+                                                                                                    } ?>">
+        <?php if (isset($error['surname'])) {
+            echo $error['surname'];
+        } ?>
+        <div id="surname-error" style="color:red"></div>
 
         <label for="phonenumber">Phone Number</label>
-        <input  type="number" placeholder="07********" id="phonenumber" name="phonenumber" max="0799999999"  min="0100000000" value="<?php if (isset($phonenumber)) {echo $phonenumber;}?>" >
-        <?php if (isset($error['phonenumber'])) {echo $error['phonenumber'];}?>
-        <div id="phonenumber-error" style="color:red" ></div>
+        <input type="number" placeholder="07********" id="phonenumber" name="phonenumber" max="0799999999" min="0100000000" value="<?php if (isset($phonenumber)) {
+                                                                                                                                        echo $phonenumber;
+                                                                                                                                    } ?>">
+        <?php if (isset($error['phonenumber'])) {
+            echo $error['phonenumber'];
+        } ?>
+        <div id="phonenumber-error" style="color:red"></div>
 
         <label for="email">Email Address</label>
-        <input  type="email" placeholder="example@gmail.com" id="email" name="email" autocomplete="off" value="<?php if (isset($email)) {echo $email;}?>" >
-        <?php if (isset($error['email'])) {echo $error['email'];}?>
-        <div id="email-error" style="color:red" ></div>
+        <input type="email" placeholder="example@gmail.com" id="email" name="email" autocomplete="off" value="<?php if (isset($email)) {
+                                                                                                                    echo $email;
+                                                                                                                } ?>">
+        <?php if (isset($error['email'])) {
+            echo $error['email'];
+        } ?>
+        <div id="email-error" style="color:red"></div>
 
         <label for="password">Password</label>
-        <input  type="password" placeholder="P*******d" id="password" name="password" value="<?php if (isset($password)) {echo $password;}?>" >
-        <?php if (isset($error['password'])) {echo $error['password'];}?>
-        <div id="password-error" style="color:red" ></div>
-        <br/>
+        <input type="password" placeholder="P*******d" id="password" name="password" value="<?php if (isset($password)) {
+                                                                                                echo $password;
+                                                                                            } ?>">
+        <?php if (isset($error['password'])) {
+            echo $error['password'];
+        } ?>
+        <div id="password-error" style="color:red"></div>
+        <br />
 
-        <?php if (isset($error['general'])) {echo $error['general'];}?>
-        <?php if (isset($success)) {echo $success;}?>
+        <?php if (isset($error['general'])) {
+            echo $error['general'];
+        } ?>
+        <?php if (isset($success)) {
+            echo $success;
+        } ?>
 
-        <input  type="submit" id="submit" name="submit"  value="SignUp" />
+        <input type="submit" id="submit" name="submit" value="SignUp" />
         <div class="social">
-          <div class="go"><i class="fab fa-google"></i>  Google</div>
-          <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
+            <div class="go"><i class="fab fa-google"></i> Google</div>
+            <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
         </div>
     </form>
 </body>
+
 </html>

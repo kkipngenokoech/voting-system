@@ -2,60 +2,59 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Start the session
-session_start();
+
 
 require "dbconnect.php";
 
+require("my_functions.php");
+
 // Listening To submit button clicks
 if (isset($_POST['login'])) {
-    $email = $password = $login_success = $login_error = "";
+  $email = $password = $login_success = $login_error = "";
 
-// XSS attacks prevention --> preventing sql attacks
-    $email = mysqli_real_escape_string($dbconnect, $_POST['email']);
-    $password = mysqli_real_escape_string($dbconnect, $_POST['password']);
-    // $email = $_POST['email'];
-    // $password = $_POST['password'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-// Encrypt
-    $password = crypt($password, "vote_22");
+  // XSS attacks prevention --> preventing sql attacks
+  $email = sanitize($email);
+  $password = sanitize($password);
 
-// echo $email, $password;
 
-// Retrieving data from database
-    $sql = "SELECT * FROM user WHERE emailaddress = '$email' ";
-    $result = mysqli_query($dbconnect, $sql);
+  // Encrypt
+  $password = crypt($password, "vote_22");
 
-// array containing user details fron the database
-    $user = mysqli_fetch_assoc($result);
+  // echo $email, $password;
 
-// Password of user from database
-    $pass_from_db = $user['userpassword'];
-    // echo $pass_from_db, "------", $password;
 
-    if ($pass_from_db == $password) {
-        $login_success = "<p style='color:green' >Logged In Successfully</p>";
-        // save user info on a session
-        $_SESSION['firstname'] = $user['firstname'];
-        $_SESSION['othernames'] = $user['othernames'];
-        $_SESSION['emailaddress'] = $user['emailaddress'];
-        $_SESSION['contact'] = $user['contact'];
+  // Retrieving data from database
+  $sql = "SELECT * FROM user WHERE emailaddress = '$email' ";
+  $result = mysqli_query($dbconnect, $sql);
 
-        // Redirecting user to dahsboard once authentication is complete
-        header('Location: index.php');
+  // array containing user details fron the database
+  $user = mysqli_fetch_assoc($result);
 
-    } else {
-        $login_error = "<p style='color:red' >Logging in Failed. Please try again</p>";
 
-    }
+  // Password of user from database
+  $pass_from_db = $user['userpassword'];
+  // echo $pass_from_db, "------", $password;
 
+
+
+  if ($pass_from_db == $password) {
+    $login_success = "<p style='color:green' >Logged In Successfully</p>";
+    // save user info on a session
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['firstname'] = $user['firstname'];
+    $_SESSION['othernames'] = $user['othernames'];
+    $_SESSION['emailaddress'] = $user['emailaddress'];
+    $_SESSION['contact'] = $user['contact'];
+
+    // Redirecting user to dahsboard once authentication is complete
+    header('Location:template/index.php');
+  } else {
+    $login_error = "<p style='color:red' >Logging in Failed. Please try again</p>";
+  }
 }
-
-// // remove all session variables
-// session_unset();
-
-// // destroy the session
-// session_destroy();
 
 ?>
 
@@ -123,14 +122,6 @@ if (isset($_POST['login'])) {
 </head>
 
 <body>
-  <!--[if lt IE 8]>
-      <p class="browserupgrade">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="http://browsehappy.com/">upgrade your browser</a> to improve
-        your experience.
-      </p>
-    <![endif]-->
-
   <div class="color-line"></div>
   <div class="container-fluid">
     <div class="row">
@@ -150,7 +141,7 @@ if (isset($_POST['login'])) {
         </div>
         <div class="hpanel">
           <div class="panel-body">
-            <form action="#" method="POST" id="loginForm">
+            <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" id="loginForm">
               <div class="form-group">
                 <label class="control-label" for="email">Email</label>
                 <input type="email" placeholder="example@gmail.com" title="Please enter you email" required="required" value="" name="email" id="email" class="form-control" />
@@ -160,8 +151,10 @@ if (isset($_POST['login'])) {
                 <input type="password" title="Please enter your password" required="required" value="" name="password" id="password" class="form-control" />
               </div>
 
-                <?php if (isset($login_success)): echo $login_success;endif;?>
-                <?php if (isset($login_error)): echo $login_error;endif;?>
+              <?php if (isset($login_success)) : echo $login_success;
+              endif; ?>
+              <?php if (isset($login_error)) : echo $login_error;
+              endif; ?>
               <input type="submit" id="login" name="login" value=" Login" class="btn btn-success btn-block loginbtn" />
               <a class="btn btn-default btn-block" href="signup.php">Register</a>
             </form>
@@ -170,62 +163,5 @@ if (isset($_POST['login'])) {
       </div>
       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
     </div>
-    <div class="row">
-      <div class="col-md-12 col-md-12 col-sm-12 col-xs-12 text-center">
-        <p>
-          Copyright © 2018
-          <a href="https://colorlib.com/wp/templates/">Colorlib</a> All rights
-          reserved.
-        </p>
-      </div>
-    </div>
-  </div>
 
-  <!-- jquery
-		============================================ -->
-  <script src="js/vendor/jquery-1.11.3.min.js"></script>
-  <!-- bootstrap JS
-		============================================ -->
-  <script src="js/bootstrap.min.js"></script>
-  <!-- wow JS
-		============================================ -->
-  <script src="js/wow.min.js"></script>
-  <!-- price-slider JS
-		============================================ -->
-  <script src="js/jquery-price-slider.js"></script>
-  <!-- meanmenu JS
-		============================================ -->
-  <script src="js/jquery.meanmenu.js"></script>
-  <!-- owl.carousel JS
-		============================================ -->
-  <script src="js/owl.carousel.min.js"></script>
-  <!-- sticky JS
-		============================================ -->
-  <script src="js/jquery.sticky.js"></script>
-  <!-- scrollUp JS
-		============================================ -->
-  <script src="js/jquery.scrollUp.min.js"></script>
-  <!-- mCustomScrollbar JS
-		============================================ -->
-  <script src="js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="js/scrollbar/mCustomScrollbar-active.js"></script>
-  <!-- metisMenu JS
-		============================================ -->
-  <script src="js/metisMenu/metisMenu.min.js"></script>
-  <script src="js/metisMenu/metisMenu-active.js"></script>
-  <!-- tab JS
-		============================================ -->
-  <script src="js/tab.js"></script>
-  <!-- icheck JS
-		============================================ -->
-  <script src="js/icheck/icheck.min.js"></script>
-  <script src="js/icheck/icheck-active.js"></script>
-  <!-- plugins JS
-		============================================ -->
-  <script src="js/plugins.js"></script>
-  <!-- main JS
-		============================================ -->
-  <script src="js/main.js"></script>
-</body>
-
-</html>
+    <?php require("template/footer.php") ?>
