@@ -26,7 +26,7 @@ if (!$dbconnect) {
 //check whether the user is logged in
 if (!isset($_SESSION['firstname'])) {
     //redirect user to login page
-    header('Location:login.php');
+    // header('Location:login.php');
 }
 
 // if ($conn->connect_error) {

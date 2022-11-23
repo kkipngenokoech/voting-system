@@ -7,4 +7,4 @@ session_start();
 //remove allset variables
 session_unset();
 //redirect the user to the login page
-header('Location:login.php');
+header('Location:/template/login.php');
