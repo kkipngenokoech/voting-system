@@ -19,8 +19,8 @@ if (!$dbconnect) {
     echo "Database failed to Connect" . mysqli_connect_error();
 } else {
     //create variable to pick up session variable
-    $firstname = $_SESSION['firstname'];
-    $othernames = $_SESSION['othernames'];
+    // $firstname = $_SESSION['firstname'];
+    // $othernames = $_SESSION['othernames'];
 }
 
 //check whether the user is logged in
