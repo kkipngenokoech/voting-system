@@ -6,10 +6,10 @@ if (!isset($_SESSION)) {
 };
 
 //connect to database
-$servername = "localhost";
-$username = "admin";
-$dbpassword = "voters@2002";
-$databasename = "voting";
+$servername = "http://sql8.freemysqlhosting.net/";
+$username = "sql8604030";
+$dbpassword = "birwj3A3yM";
+$databasename = "sql8604030";
 
 $dbconnect = mysqli_connect($servername, $username, $dbpassword, $databasename);
 // $conn = new mysqli($servername,$username,$dbpassword);
